@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-a_ls3&l91=7^+fzk!uvtyszr1dj6k+-#3+6f+8@x%axnf-4vzg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "*"
+]
 
 EXTERNAL_API_KEY = "test"
 EXTERNAL_API_URL = "http://localhost:8000"
