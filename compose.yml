@@ -3,6 +3,7 @@ version: '3.7'
 services:
   web:
     build: .
+    container_name: tic_tac_toe_backend
     ports:
       - "8000:8000"
     volumes:
