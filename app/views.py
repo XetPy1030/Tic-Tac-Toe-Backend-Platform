@@ -50,6 +50,8 @@ class ExternalCreateView(APIView):
             is_external_created=True
         )
 
+        return Response()
+
 
 class ExternalFinishView(APIView):
     def post(self, request, game_id):
