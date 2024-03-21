@@ -31,6 +31,7 @@ ALLOWED_HOSTS = [
 
 EXTERNAL_API_KEY = os.environ.get("EXTERNAL_API_KEY")
 EXTERNAL_API_URL = os.environ.get("EXTERNAL_API_URL")
+print(EXTERNAL_API_KEY, EXTERNAL_API_URL)
 
 
 # Application definition
