@@ -22,6 +22,7 @@ class Player:
                     "name": self.name,
                     "symbol": self.symbol,
                     "is_turn": self.game.current_player == self,
+                    "win_status": self.storage.win_status,
                 },
                 "map": self.game.map,
             }, "syncronize"
