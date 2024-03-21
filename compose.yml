@@ -8,3 +8,9 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
+    networks:
+      - tic_tac_toe_network
+
+networks:
+  tic_tac_toe_network:
+    driver: bridge
