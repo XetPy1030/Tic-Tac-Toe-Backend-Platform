@@ -29,6 +29,7 @@ ALLOWED_HOSTS = [
     "*"
 ]
 
+print(os.environ)
 EXTERNAL_API_KEY = os.environ["EXTERNAL_API_KEY"]
 EXTERNAL_API_URL = os.environ["EXTERNAL_API_URL"]
 print(EXTERNAL_API_KEY, EXTERNAL_API_URL)
