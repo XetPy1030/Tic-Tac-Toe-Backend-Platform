@@ -1,7 +1,9 @@
+import json
 from typing import TYPE_CHECKING
 
 import httpx
 from django.conf import settings
+from django.core.serializers.json import DjangoJSONEncoder
 
 from app.logic.enums import WinStatus
 
@@ -10,16 +12,21 @@ if TYPE_CHECKING:
     from app.logic.game import Game
 
 default_headers = {
-    "Authorization": f"Bearer {settings.EXTERNAL_API_KEY}"
+    "Authorization": f"Bearer {settings.EXTERNAL_API_KEY}",
+    "Content-Type": "application/json",
 }
+
+
+def decode_data(data: dict):
+    return json.dumps(data, ensure_ascii=False, cls=DjangoJSONEncoder)
 
 
 async def quit_player(player: "Player"):
     async with httpx.AsyncClient() as httpx_client:
         response = await httpx_client.post(
             f"{settings.EXTERNAL_API_URL}/assessment/{player.game_id}/quit",
-            json={"uid": player.id},
-            headers=default_headers
+            content=decode_data({"uid": player.id}),
+            headers=default_headers,
         )
         response.raise_for_status()
 
@@ -28,7 +35,7 @@ async def add_results(game: "Game"):
     async with httpx.AsyncClient() as httpx_client:
         response = await httpx_client.post(
             f"{settings.EXTERNAL_API_URL}/assessment/{game.id}/add",
-            json=get_results(game),
+            content=decode_data(get_results(game)),
             headers=default_headers
         )
         response.raise_for_status()
