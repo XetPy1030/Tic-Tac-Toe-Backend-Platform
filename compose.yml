@@ -5,7 +5,7 @@ services:
     build: .
     container_name: tic_tac_toe_backend
     ports:
-      - "8000:8000"
+      - ${BACKEND_PORT}:8000
     volumes:
       - .:/app
     networks:
