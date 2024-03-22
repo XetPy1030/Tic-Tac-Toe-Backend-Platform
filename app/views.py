@@ -1,8 +1,10 @@
 from uuid import UUID
 
+from asgiref.sync import sync_to_async
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from app.auth import ExternalApiAuthentication
 from app.hr_platform import meta_dict
 from app.logic.game import Game
 
@@ -21,11 +23,12 @@ class CreateView(APIView):
 
 class ExternalMetaView(APIView):
     def get(self, request):
-        print(meta_dict)
         return Response(meta_dict)
 
 
 class ExternalCreateView(APIView):
+    authentication_classes = [ExternalApiAuthentication]
+
     def post(self, request):
         data = request.data
         game_id = UUID(data["assessment_id"])
@@ -54,5 +57,10 @@ class ExternalCreateView(APIView):
 
 
 class ExternalFinishView(APIView):
-    def post(self, request, game_id):
-        ...
+    authentication_classes = [ExternalApiAuthentication]
+
+    @sync_to_async
+    async def post(self, request, game_id):
+        game = Game.get_game_by_id(UUID(game_id))
+        await game.finish_game()
+        return Response()

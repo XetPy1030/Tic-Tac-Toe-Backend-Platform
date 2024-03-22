@@ -42,20 +42,27 @@ class Game:
             "symbol": symbol,
         }
 
+    async def finish_game(self):
+        self.storage.is_end = True
+        self.distribute_win_status_by_role(WinStatus.DRAW)
+        await self.on_end_game()
+
     def check_winner(self) -> WinStatus:
         win_status = self.check_map_winner()
 
         if win_status != WinStatus.UNKNOWN:
             self.storage.is_end = True
-
-            if win_status == WinStatus.WIN:
-                self.current_player.storage.win_status = WinStatus.WIN
-                self.get_next_player().storage.win_status = WinStatus.LOSE
-            else:
-                for player in self.players:
-                    player.storage.win_status = WinStatus.DRAW
+            self.distribute_win_status_by_role(win_status)
 
         return win_status
+
+    def distribute_win_status_by_role(self, win_status: WinStatus):
+        if win_status == WinStatus.WIN:
+            self.current_player.storage.win_status = WinStatus.WIN
+            self.get_next_player().storage.win_status = WinStatus.LOSE
+        else:
+            for player in self.players:
+                player.storage.win_status = WinStatus.DRAW
 
     def check_map_winner(self):
         map = self.map

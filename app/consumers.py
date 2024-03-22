@@ -7,6 +7,8 @@ from uuid import UUID
 from channels.consumer import AsyncConsumer
 from django.core.serializers.json import DjangoJSONEncoder
 
+from app.auth import validate_token
+
 if TYPE_CHECKING:
     from app.logic.game import Game
     from app.logic.player import Player
@@ -91,7 +93,8 @@ class GameConsumer(BaseConsumer):
         if self.is_registered:
             raise ValueError("Вы уже зарегестрированы")
 
-        self.player_id = UUID(data.get('player_id'))
+        token = validate_token(data.get('token'))
+        self.player_id = token.sub
         await self.attempt_register()
 
     async def handle_attack(self, data: dict):

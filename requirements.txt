@@ -5,3 +5,5 @@ pydantic~=2.6.4
 channels~=4.0.0
 daphne
 python-dotenv
+python-keycloak
+PyJWT

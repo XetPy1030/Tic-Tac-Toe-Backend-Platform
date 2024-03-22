@@ -16,8 +16,6 @@ default_headers = {
     "Content-Type": "application/json",
 }
 
-print(2, settings.EXTERNAL_API_KEY, settings.EXTERNAL_API_URL)
-
 
 def decode_data(data: dict):
     return json.dumps(data, ensure_ascii=False, cls=DjangoJSONEncoder)
