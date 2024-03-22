@@ -61,5 +61,5 @@ class ExternalFinishView(APIView):
 
     def post(self, request, game_id: UUID):
         game = Game.get_game_by_id(game_id)
-        asyncio.create_task(game.finish_game())
+        asyncio.run(game.finish_game())
         return Response()
