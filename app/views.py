@@ -59,7 +59,7 @@ class ExternalCreateView(APIView):
 class ExternalFinishView(APIView):
     authentication_classes = [ExternalApiAuthentication]
 
-    def post(self, request, game_id):
-        game = Game.get_game_by_id(UUID(game_id))
+    def post(self, request, game_id: UUID):
+        game = Game.get_game_by_id(game_id)
         asyncio.create_task(game.finish_game())
         return Response()
