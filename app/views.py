@@ -1,6 +1,6 @@
+import asyncio
 from uuid import UUID
 
-from asgiref.sync import sync_to_async
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -59,8 +59,7 @@ class ExternalCreateView(APIView):
 class ExternalFinishView(APIView):
     authentication_classes = [ExternalApiAuthentication]
 
-    @sync_to_async
-    async def post(self, request, game_id):
+    def post(self, request, game_id):
         game = Game.get_game_by_id(UUID(game_id))
-        await game.finish_game()
+        asyncio.create_task(game.finish_game())
         return Response()
